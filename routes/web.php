@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+Route::get('/produtos', 'ControladorProduto@index');
+Route::get('/categorias', 'ControladorCategoria@index');
+Route::get('/categorias/create', 'ControladorCategoria@create');
+Route::post('/categorias', 'ControladorCategoria@store');
