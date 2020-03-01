@@ -14,7 +14,8 @@ class ControladorCategoria extends Controller
      */
     public function index()
     {
-        return view('categorias');
+        $cats = Categoria2::all();
+        return view('categorias', compact('cats'));
     }
 
     /**
@@ -35,9 +36,10 @@ class ControladorCategoria extends Controller
      */
     public function store(Request $request)
     {
-        $cat = new Categoria2();
-        $cat->nome = $request->input('nomeCategoria');
-        $cat->save();
+        $cats = new Categoria2();
+        $cats->nome = $request->input('nomeCategoria');
+        $cats->save();
+        return redirect('/categorias');
     }
 
     /**
@@ -59,7 +61,11 @@ class ControladorCategoria extends Controller
      */
     public function edit($id)
     {
-        //
+        $cats = Categoria2::find($id);
+        if(isset($cats)){
+            return view('editarcategoria', compact('cats'));
+        }
+        return redirect('/categorias');
     }
 
     /**
@@ -71,7 +77,12 @@ class ControladorCategoria extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cats = Categoria2::find($id);
+        if(isset($cats)){
+            $cats->nome = $request->input('nomeCategoria');
+            $cats->save();
+        }
+        return redirect('/categorias');
     }
 
     /**
@@ -82,6 +93,10 @@ class ControladorCategoria extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cats = Categoria2::find($id);
+        if(isset($cats)){
+            $cats->delete();
+        }
+        return redirect('/categorias');
     }
 }
