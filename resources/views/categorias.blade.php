@@ -8,7 +8,7 @@
                 <thead>
                     <tr>
                         <th>Código</th>
-                        <th>Nome da Categoria</th>
+                        <th>Categoria</th>
                         <th>Ações</th>
                     </tr>
                 </thead>

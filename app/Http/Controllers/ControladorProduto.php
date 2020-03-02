@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Categoria2;
 use Illuminate\Http\Request;
+use App\Produto2;
 
 class ControladorProduto extends Controller
 {
@@ -13,7 +15,8 @@ class ControladorProduto extends Controller
      */
     public function index()
     {
-        return view('produtos');
+        $prod = Produto2::all();
+        return view('produtos', compact('prod'));
     }
 
     /**
@@ -23,7 +26,8 @@ class ControladorProduto extends Controller
      */
     public function create()
     {
-        //
+        $cats = Categoria2::all();
+        return view('novoproduto', compact('cats'));
     }
 
     /**
@@ -34,7 +38,10 @@ class ControladorProduto extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $prod = new Produto2();
+        $prod->nome = $request->input('nomeProduto');
+        $prod->save();
+        return redirect('/produtos');
     }
 
     /**
@@ -56,7 +63,11 @@ class ControladorProduto extends Controller
      */
     public function edit($id)
     {
-        //
+        $prod = Produto2::find($id);
+        if(isset($prod)){
+            return view('editarproduto', compact('prod'));
+        }
+        return redirect('/produtos');
     }
 
     /**
@@ -68,7 +79,12 @@ class ControladorProduto extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $prod = Produto2::find($id);
+        if(isset($prod)){
+            $prod->nome = $request->input('nomeProduto');
+            $prod->save();
+        }
+        return redirect('/produtos');
     }
 
     /**
@@ -79,6 +95,10 @@ class ControladorProduto extends Controller
      */
     public function destroy($id)
     {
-        //
+        $prod = Produto2::find($id);
+        if(isset($prod)){
+            $prod->delete();
+        }
+        return redirect('/produtos');
     }
 }
