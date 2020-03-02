@@ -20,6 +20,13 @@
                     <tr>
                         <td>{{$p->id}}</td>
                         <td>{{$p->nome}}</td>
+                        <td>{{$p->estoque}}</td>
+                        <td>{{$p->preco}}</td>
+                        @foreach($cats as $c)
+                            @if($p->categoria_id == $c->id)
+                            <td>{{$c->nome}}</td>
+                            @endif
+                        @endforeach
                         <td>
                             <a href="/produtos/editar/{{$p->id}}" class="btn btn-sm btn-primary">Editar</a>
                             <a href="/produtos/apagar/{{$p->id}}" class="btn btn-sm btn-danger">Apagar</a>
