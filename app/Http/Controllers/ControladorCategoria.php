@@ -99,4 +99,9 @@ class ControladorCategoria extends Controller
         }
         return redirect('/categorias');
     }
+    public function indexJson()
+    {
+        $cats = Categoria2::all();
+        return json_encode($cats);
+    }
 }
