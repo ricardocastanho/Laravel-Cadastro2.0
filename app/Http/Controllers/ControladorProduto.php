@@ -13,11 +13,18 @@ class ControladorProduto extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function indexView()
     {
         $cats = Categoria2::all();
         $prod = Produto2::all();
         return view('produtos', compact('prod', 'cats'));
+    }
+
+    public function index()
+    {
+        $cats = Categoria2::all();
+        $prod = Produto2::all();
+        return $prod->toJson();
     }
 
     /**
@@ -27,8 +34,7 @@ class ControladorProduto extends Controller
      */
     public function create()
     {
-        $cats = Categoria2::all();
-        return view('novoproduto', compact('cats'));
+        return view('novoproduto');
     }
 
     /**
@@ -45,7 +51,7 @@ class ControladorProduto extends Controller
         $prod->preco = $request->input('preco');
         $prod->categoria_id = $request->input('categoria');
         $prod->save();
-        return redirect('/produtos');
+        return json_encode($prod);
     }
 
     /**

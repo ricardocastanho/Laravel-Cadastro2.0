@@ -4,7 +4,7 @@
     <div class="card border">
         <div class="card-body">
             <h5 class="card-title">Cadastro de Produtos</h5>
-            <table class="table table-ordered table-hover">
+            <table class="table table-ordered table-hover" id="tabelaProdutos">
                 <thead>
                 <tr>
                     <th>Código</th>
@@ -26,8 +26,9 @@
                 <button class="btn btn-sm btn-primary" role="button" onclick="novoProduto()">Novo Produto</button>
             </div>
         </div>
-
     </div>
+
+
     <div class="modal" tabindex="-1" role="dialog" id="dlgProdutos">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -80,6 +81,13 @@
 
 @section('javascript')
     <script type="text/javascript">
+
+        $.ajaxSetup({
+           headers: {
+               'X-CSRF-TOKEN': "{{csrf_token()}}"
+           }
+        });
+
         function novoProduto() {
             $('#id').val('');
             $('#nomeProduto').val('');
@@ -96,8 +104,49 @@
                 }
             });
         }
+        function montarLinha(p) {
+            var linha = "<tr>" +
+                "<td>" + p.id + "</td>" +
+                "<td>" + p.nome + "</td>" +
+                "<td>" + p.estoque + "</td>" +
+                "<td>" + p.preco + "</td>" +
+                "<td>" + p.categoria_id + "</td>" +
+                "<td>" +
+                    '<button class="btn btn-sm btn-primary">Editar</button>' +
+                    '<button class="btn btn-sm btn-danger">Apagar</button>' +
+                "</td>" +
+                "</tr>";
+            return linha;
+        }
+        function carregarProdutos(){
+            $.getJSON('/api/produtos', function (data) {
+                for(i=0;i<data.length;i++){
+                    linha = montarLinha(data[i]);
+                    $('#tabelaProdutos').append(linha);
+                }
+            });
+        }
+
+        function criarProduto(){
+            prod = {
+                nome: $("#nomeProduto").val(),
+                preco: $("#precoProduto").val(),
+                estoque: $("#quantidadeProduto").val(),
+                categoria_id: $("#categoriaProduto").val()
+            };
+            $.post("/api/produtos", prod, function (data){
+               console.log(data);
+            });
+        }
+        $("formProduto").submit(function(event) {
+            event.preventDefault();
+            criarProduto();
+            $("#dlgProdutos").modal('hide');
+        });
+
         $(function () {
             carregarCategorias();
+            carregarProdutos();
         })
     </script>
 @endsection
