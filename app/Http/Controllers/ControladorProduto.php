@@ -22,7 +22,6 @@ class ControladorProduto extends Controller
 
     public function index()
     {
-        $cats = Categoria2::all();
         $prod = Produto2::all();
         return $prod->toJson();
     }
@@ -34,7 +33,7 @@ class ControladorProduto extends Controller
      */
     public function create()
     {
-        return view('novoproduto');
+        //return view('novoproduto');
     }
 
     /**
@@ -46,10 +45,10 @@ class ControladorProduto extends Controller
     public function store(Request $request)
     {
         $prod = new Produto2();
-        $prod->nome = $request->input('nomeProduto');
-        $prod->estoque = $request->input('unidadesEstoque');
+        $prod->nome = $request->input('nome');
         $prod->preco = $request->input('preco');
-        $prod->categoria_id = $request->input('categoria');
+        $prod->estoque = $request->input('estoque');
+        $prod->categoria_id = $request->input('categoria_id');
         $prod->save();
         return json_encode($prod);
     }

@@ -42,28 +42,28 @@
                         <div class="form-group">
                             <label for="nomeProduto" class="control-label">Nome do Produto</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="nomeProduto" placeholder="Digite o nome aqui">
+                                <input type="text" class="form-control" id="nomeProduto" name="nomeProduto" placeholder="Digite o nome aqui">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="precoProduto" class="control-label">Preço</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" id="precoProduto" placeholder="Digite o preço aqui">
+                                <input type="number" class="form-control" id="precoProduto" name="precoProduto" placeholder="Digite o preço aqui">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="quantidadeProduto" class="control-label">Quantidade</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" id="quantidadeProduto" placeholder="Digite a quantidade aqui">
+                                <input type="number" class="form-control" id="quantidadeProduto" name="quantidadeProduto" placeholder="Digite a quantidade aqui">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="categoriaProduto" class="control-label">Categoria</label>
                             <div class="input-group">
-                                <select class="form-control" id="categoriaProduto">
+                                <select class="form-control"  name="categoriaProduto" id="categoriaProduto">
 
                                 </select>
                             </div>
@@ -134,11 +134,11 @@
                 estoque: $("#quantidadeProduto").val(),
                 categoria_id: $("#categoriaProduto").val()
             };
-            $.post("/api/produtos", prod, function (data){
-               console.log(data);
+            $.post("/api/produtos", prod, function(data){
+                   console.log(data);
             });
         }
-        $("formProduto").submit(function(event) {
+        $("#formProduto").submit(function(event) {
             event.preventDefault();
             criarProduto();
             $("#dlgProdutos").modal('hide');
