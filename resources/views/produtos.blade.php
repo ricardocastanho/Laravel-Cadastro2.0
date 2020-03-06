@@ -135,7 +135,9 @@
                 categoria_id: $("#categoriaProduto").val()
             };
             $.post("/api/produtos", prod, function(data){
-                   console.log(data);
+                produto = JSON.parse(data);
+                linha = montarLinha(produto);
+                $('#tabelaProdutos').append(linha);
             });
         }
         $("#formProduto").submit(function(event) {
