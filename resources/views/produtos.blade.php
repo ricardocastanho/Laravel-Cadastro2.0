@@ -140,6 +140,16 @@
                 $('#tabelaProdutos').append(linha);
             });
         }
+        function editar(id) {
+            $.getJSON('/api/produtos/'+id, function (data) {
+                $('#id').val(data.id);
+                $('#nomeProduto').val(data.nome);
+                $('#precoProduto').val(data.preco);
+                $('#quantidadeProduto').val(data.estoque);
+                $('#categoriaProdutoProduto').val(data.categoria_id);
+                $('#dlgProdutos').modal('show');
+            });
+        }
         function apagar(id){
             $.ajax({
                 type: "DELETE",
@@ -155,9 +165,46 @@
                 }
             });
         }
+        function salvarProduto(){
+            prod = {
+                id: $("#id").val(),
+                nome: $("#nomeProduto").val(),
+                preco: $("#precoProduto").val(),
+                estoque: $("#quantidadeProduto").val(),
+                categoria_id: $("#categoriaProduto").val()
+            };
+            $.ajax({
+                type: "PUT",
+                url: "/api/produtos/" + prod.id,
+                context: this,
+                data: prod,
+                success: function (data) {
+                    prod = JSON.parse(data);
+                    linhas = $("#tabelaProdutos>tbody>tr");
+                    e = linhas.filter(function (i, e) {
+                        return (e.cells[0].textContent == prod.id);
+                    });
+                    if(e){
+                        e[0].cells[0].textContent = prod.id;
+                        e[0].cells[1].textContent = prod.nome;
+                        e[0].cells[2].textContent = prod.estoque;
+                        e[0].cells[3].textContent = prod.preco;
+                        e[0].cells[4].textContent = prod.categoria_id;
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
         $("#formProduto").submit(function(event) {
             event.preventDefault();
-            criarProduto();
+            if($("#id").val() != ''){
+                salvarProduto();
+            }
+            else{
+                criarProduto();
+            }
             $("#dlgProdutos").modal('hide');
         });
 
