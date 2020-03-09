@@ -112,6 +112,6 @@ class ControladorProduto extends Controller
         if(isset($prod)){
             $prod->delete();
         }
-        return redirect('/produtos');
+        //return redirect('/produtos');
     }
 }
